@@ -1,0 +1,18 @@
+// Adicione este modelo ao seu prisma/schema.prisma
+model Avaliacao {
+  id           Int      @id @default(autoincrement())
+  // Relações
+  alunoId      Int      @unique // 1 Avaliação por Aluno
+  professorId  Int      // Chave Multi-Tenant para consultas rápidas
+  
+  // Conteúdo e Status
+  status       String   @default("Rascunho") // "Rascunho", "Finalizado", "Aprovado"
+  respostasJson Json?   // Todos os dados do formulário
+  
+  // Foreign Keys
+  aluno        Aluno    @relation(fields: [alunoId], references: [id])
+  professor    Professor @relation(fields: [professorId], references: [id])
+  
+  dataCriacao  DateTime @default(now())
+  dataAtualizacao DateTime @updatedAt
+}
