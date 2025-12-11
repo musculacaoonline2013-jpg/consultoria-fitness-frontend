@@ -1,27 +1,50 @@
-// src/components/EquipmentCard.tsx (Atualizado)
+'use client';
 
-import Image from 'next/image'; // Importar o componente Image do Next.js
-// ... (outros imports)
+import React from 'react';
+import Image from 'next/image';
 
-// ...
+export interface Equipment {
+  id: string;
+  name: string;
+  imageUrl: string;
+  // Se tiver mais campos no futuro, adiciona aqui:
+  // description?: string;
+  // category?: string;
+}
 
-const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment, isSelected, onToggle }) => {
+export interface EquipmentCardProps {
+  equipment: Equipment;
+  isSelected: boolean;
+  onToggle: (id: string) => void;
+}
+
+const EquipmentCard: React.FC<EquipmentCardProps> = ({
+  equipment,
+  isSelected,
+  onToggle,
+}) => {
   return (
     <div
-      // ... (classes e lógica de clique)
       onClick={() => onToggle(equipment.id)}
+      className={`
+        cursor-pointer rounded-lg border p-3 transition
+        ${isSelected ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-white'}
+      `}
     >
-      <div className="relative h-24 overflow-hidden rounded-md mb-2">
+      <div className="relative mb-2 h-24 w-full overflow-hidden rounded-md">
         <Image
-          src={equipment.imageUrl} // Ex: '/images/cadeira_extensora.jpg'
+          src={equipment.imageUrl}        // ex: '/images/cadeira_extensora.jpg'
           alt={equipment.name}
-          layout="fill" // Faz a imagem cobrir o div
-          objectFit="cover" // Garante que a imagem preencha sem distorcer
-          className="transition-transform duration-300 hover:scale-105"
+          fill                             // substitui layout="fill"
+          className="object-cover transition-transform duration-300 hover:scale-105"
         />
       </div>
 
-      {/* ... (resto do conteúdo) */}
+      <div className="text-sm font-semibold text-gray-800">
+        {equipment.name}
+      </div>
     </div>
   );
 };
+
+export default EquipmentCard;
