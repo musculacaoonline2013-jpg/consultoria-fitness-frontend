@@ -15,6 +15,7 @@ export const useAuth = () => {
     isLoading: true,
     token: null,
   });
+
   const router = useRouter();
 
   useEffect(() => {
@@ -40,19 +41,22 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
- // src/hooks/useAuth.ts (dentro de ProtectedRoute)
-
+  // Redireciona caso não esteja autenticado
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.push('/login');
     }
   }, [isAuthenticated, isLoading, router]);
 
+  // Carregando
   if (isLoading || !isAuthenticated) {
-    // ESTA LINHA DEVE SER A ÚNICA LINHA DE CÓDIGO AQUI
-    return <div className="p-8 text-center text-gray-500">Carregando...</div>;
+    return (
+      <div className="p-8 text-center text-gray-500">
+        Carregando...
+      </div>
+    );
   }
 
-  // Se autenticado, mostra o conteúdo
+  // Conteúdo protegido
   return <>{children}</>;
 };
