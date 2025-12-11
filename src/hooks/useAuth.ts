@@ -40,17 +40,19 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
+ // src/hooks/useAuth.ts (dentro de ProtectedRoute)
+
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.push('/login');
     }
   }, [isAuthenticated, isLoading, router]);
 
-if (isLoading || !isAuthenticated) {
-    // Removemos os parênteses ( ) para evitar o erro de parsing
+  if (isLoading || !isAuthenticated) {
+    // ESTA LINHA DEVE SER A ÚNICA LINHA DE CÓDIGO AQUI
     return <div className="p-8 text-center text-gray-500">Carregando...</div>;
   }
 
-  // Solução de retorno final (DIV simples)
+  // Se autenticado, mostra o conteúdo
   return <>{children}</>;
 };
